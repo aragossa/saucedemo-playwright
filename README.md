@@ -8,10 +8,11 @@ written with Playwright and TypeScript.
 **Option 1 — Node.js 20+ on your machine**
 
 ```bash
-npm install
-npx playwright install --with-deps chromium
-npx playwright test
+git clone https://github.com/aragossa/saucedemo-playwright.git && cd saucedemo-playwright && npm run test:fresh
 ```
+
+`test:fresh` = `npm ci && npx playwright install --with-deps chromium && npx playwright test`.
+Once set up, rerun with just `npx playwright test`.
 
 **Option 2 — Docker, nothing else needed** (clones the repo inside the container, touches nothing on the host)
 
@@ -33,7 +34,7 @@ Each test starts on the login page and is independent, so any of them can run al
 
 ## More commands
 
-Developed on Node 23. `--with-deps` in the quick start installs the browser's system libraries on
+Developed on Node 23. `--with-deps` in `test:fresh` installs the browser's system libraries on
 Linux (needs `sudo` on a non-root machine) and does nothing on macOS or Windows; without it, Chromium
 does not start on a bare Linux box (`libnspr4.so: cannot open shared object file`).
 
