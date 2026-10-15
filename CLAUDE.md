@@ -8,7 +8,8 @@ before changing scope. Never edit it.
 ## Stack and commands
 
 - Playwright Test, TypeScript, Chromium only. Node 23, npm.
-- `npm install && npx playwright install chromium` — one-time setup.
+- `npm install && npx playwright install --with-deps chromium` — one-time setup
+  (`--with-deps` is required on bare Linux, harmless elsewhere).
 - `npm run lint` — ESLint with eslint-plugin-playwright; enforces test honesty rules.
 - `npx playwright test` — the full suite. This is the command we report.
 - `npx playwright test <spec> -g "<title>"` — one test in isolation.

@@ -8,7 +8,7 @@ written with Playwright and TypeScript.
 | # | Spec | Scenario |
 |---|------|----------|
 | 1 | `tests/login.spec.ts` | `standard_user` signs in; the Products page opens and **Sauce Labs Backpack** is visible |
-| 2 | `tests/cart.spec.ts`  | `standard_user` adds **Sauce Labs Backpack** to the cart and opens the cart; the cart contains exactly that item |
+| 2 | `tests/cart.spec.ts`  | `standard_user` adds **Sauce Labs Backpack** to the cart and opens the cart; the cart contains that item |
 | 3 | `tests/login.spec.ts` | `locked_out_user` is rejected; the login page stays open with the error `Epic sadface: Sorry, this user has been locked out.` |
 
 Each test starts on the login page and is independent, so any of them can run alone.
@@ -19,9 +19,13 @@ Requires Node.js 20+ (developed on Node 23).
 
 ```bash
 npm install
-npx playwright install chromium
+npx playwright install --with-deps chromium
 npx playwright test
 ```
+
+`--with-deps` installs the browser's system libraries on Linux (needs `sudo` on a non-root machine)
+and does nothing on macOS or Windows. Without it, Chromium does not start on a bare Linux box
+(`libnspr4.so: cannot open shared object file`).
 
 Useful variations:
 
@@ -46,6 +50,20 @@ Running 3 tests using 3 workers
 ```
 
 All 3 tests passed (Chromium, macOS, Playwright 1.64.1).
+
+Also verified from a fresh `git clone` on clean machines:
+
+| Environment | Steps | Result |
+|-------------|-------|--------|
+| Docker `node:20-bookworm` (Debian 12, Node 20.20) | the three commands above | 3 passed |
+| Docker `mcr.microsoft.com/playwright:v1.64.1-noble` (Node 24) | `npm ci && npx playwright test` | 3 passed |
+
+No Node on the machine? The official Playwright image clones and runs the suite in one go, touching
+nothing on the host:
+
+```bash
+docker run --rm mcr.microsoft.com/playwright:v1.64.1-noble sh -c "git clone -q https://github.com/aragossa/saucedemo-playwright.git /work && cd /work && npm ci && npx playwright test"
+```
 
 I also checked that the tests can fail: with a wrong product name tests 1 and 2 fail on the
 visibility assertion, with a wrong lockout text test 3 fails on the exact-text assertion.
