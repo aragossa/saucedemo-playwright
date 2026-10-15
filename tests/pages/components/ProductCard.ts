@@ -8,11 +8,11 @@ export class ProductCard {
     this.addToCartButton = root.getByRole('button', { name: 'Add to cart' });
   }
 
-  /** Finds the card whose name matches `name` inside `container`. */
+  /** Finds the card whose name is exactly `name` inside `container` (not a substring). */
   static byName(container: Locator, name: string): ProductCard {
     const root = container
       .getByTestId('inventory-item')
-      .filter({ has: container.page().getByTestId('inventory-item-name').filter({ hasText: name }) });
+      .filter({ has: container.page().getByTestId('inventory-item-name').filter({ hasText: exact(name) }) });
     return new ProductCard(root);
   }
 
@@ -20,3 +20,6 @@ export class ProductCard {
     await this.addToCartButton.click();
   }
 }
+
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const exact = (name: string) => new RegExp(`^${escapeRegExp(name)}$`);

@@ -28,6 +28,7 @@ export const test = base.extend<Fixtures>({
     await base.step('Sign in as standard_user', async () => {
       await loginPage.login(users.standard.username, users.standard.password);
       await expect(page).toHaveURL(/\/inventory\.html$/);
+      await expect(inventoryPage.title).toHaveText('Products');
     });
 
     await use(inventoryPage);
