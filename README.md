@@ -3,6 +3,24 @@
 End-to-end tests for the public demo shop [saucedemo.com](https://www.saucedemo.com/),
 written with Playwright and TypeScript.
 
+## Quick start
+
+**Option 1 — Node.js 20+ on your machine**
+
+```bash
+npm install
+npx playwright install --with-deps chromium
+npx playwright test
+```
+
+**Option 2 — Docker, nothing else needed** (clones the repo inside the container, touches nothing on the host)
+
+```bash
+docker run --rm mcr.microsoft.com/playwright:v1.64.1-noble sh -c "git clone -q https://github.com/aragossa/saucedemo-playwright.git /work && cd /work && npm ci && npx playwright test"
+```
+
+Expected result: `3 passed`.
+
 ## Tests
 
 | # | Spec | Scenario |
@@ -13,21 +31,11 @@ written with Playwright and TypeScript.
 
 Each test starts on the login page and is independent, so any of them can run alone.
 
-## How to run
+## More commands
 
-Requires Node.js 20+ (developed on Node 23).
-
-```bash
-npm install
-npx playwright install --with-deps chromium
-npx playwright test
-```
-
-`--with-deps` installs the browser's system libraries on Linux (needs `sudo` on a non-root machine)
-and does nothing on macOS or Windows. Without it, Chromium does not start on a bare Linux box
-(`libnspr4.so: cannot open shared object file`).
-
-Useful variations:
+Developed on Node 23. `--with-deps` in the quick start installs the browser's system libraries on
+Linux (needs `sudo` on a non-root machine) and does nothing on macOS or Windows; without it, Chromium
+does not start on a bare Linux box (`libnspr4.so: cannot open shared object file`).
 
 ```bash
 npx playwright test --headed             # watch the browser
@@ -55,15 +63,8 @@ Also verified from a fresh `git clone` on clean machines:
 
 | Environment | Steps | Result |
 |-------------|-------|--------|
-| Docker `node:20-bookworm` (Debian 12, Node 20.20) | the three commands above | 3 passed |
-| Docker `mcr.microsoft.com/playwright:v1.64.1-noble` (Node 24) | `npm ci && npx playwright test` | 3 passed |
-
-No Node on the machine? The official Playwright image clones and runs the suite in one go, touching
-nothing on the host:
-
-```bash
-docker run --rm mcr.microsoft.com/playwright:v1.64.1-noble sh -c "git clone -q https://github.com/aragossa/saucedemo-playwright.git /work && cd /work && npm ci && npx playwright test"
-```
+| Docker `node:20-bookworm` (Debian 12, Node 20.20) | quick start, option 1 | 3 passed |
+| Docker `mcr.microsoft.com/playwright:v1.64.1-noble` (Node 24, arm64 and amd64) | quick start, option 2 | 3 passed |
 
 I also checked that the tests can fail: with a wrong product name tests 1 and 2 fail on the
 visibility assertion, with a wrong lockout text test 3 fails on the exact-text assertion.
