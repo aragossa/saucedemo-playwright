@@ -39,10 +39,10 @@ Command: `npx playwright test`
 
 ```
 Running 3 tests using 3 workers
-  ✓  3 [chromium] › tests/login.spec.ts:21:7 › Login › locked_out_user is rejected and stays on the login page (1.1s)
-  ✓  2 [chromium] › tests/login.spec.ts:5:7 › Login › standard_user signs in and sees Sauce Labs Backpack on the products page (1.1s)
-  ✓  1 [chromium] › tests/cart.spec.ts:5:7 › Cart › standard_user adds Sauce Labs Backpack to the cart and sees it in the cart (1.3s)
-  3 passed (2.2s)
+  ✓  3 [chromium] › tests/login.spec.ts:21:7 › Login › locked_out_user is rejected and stays on the login page (1.5s)
+  ✓  2 [chromium] › tests/login.spec.ts:5:7 › Login › standard_user signs in and sees Sauce Labs Backpack on the products page (1.7s)
+  ✓  1 [chromium] › tests/cart.spec.ts:5:7 › Cart › standard_user adds Sauce Labs Backpack to the cart and sees it in the cart (1.8s)
+  3 passed (2.9s)
 ```
 
 All 3 tests passed (Chromium, macOS, Playwright 1.64.1).
