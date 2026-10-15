@@ -2,8 +2,8 @@
 
 Home assignment (~2 hours): three Playwright + TypeScript e2e tests against the
 public demo shop https://www.saucedemo.com/. The task statement is
-`qa-automation-home-assignment.pdf` (kept locally, excluded from the delivery
-archive) — read it before changing scope. Never edit it.
+`qa-automation-home-assignment.pdf` (kept locally, not committed) — read it
+before changing scope. Never edit it.
 
 ## Stack and commands
 
