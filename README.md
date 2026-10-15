@@ -69,6 +69,9 @@ Design notes:
 
 ## Note on AI usage
 
-I used an AI assistant (Claude Code) to scaffold the project and draft the page objects and tests,
-working from project rules I wrote first (page objects, fixtures, data-test locators, no sleeps).
+I used an AI assistant (Claude Code) to scaffold the project and draft the page objects and tests.
+The specification the assistant worked from is in this repo: `.claude/rules/` (locators, assertions,
+structure, patterns), `.claude/skills/` (how to add and debug a test) and `.claude/settings.json`
+with hooks that block destructive commands and typecheck every `.ts` edit. The chat prompts
+themselves were short; the rules did the work.
 I reviewed the code, ran the suite locally and verified that wrong expectations make the tests fail.
