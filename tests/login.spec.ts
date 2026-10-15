@@ -7,11 +7,8 @@ test.describe('Login', () => {
     loginPage,
     inventoryPage,
   }) => {
-    await test.step('Login as standard_user', async () => {
+    await test.step('Login as standard_user opens the Products page', async () => {
       await loginPage.login(users.standard.username, users.standard.password);
-    });
-
-    await test.step('Products page is open', async () => {
       await expect(page).toHaveURL(/\/inventory\.html$/);
       await expect(inventoryPage.title).toHaveText('Products');
     });
@@ -22,11 +19,8 @@ test.describe('Login', () => {
   });
 
   test('locked_out_user is rejected and stays on the login page', async ({ page, loginPage }) => {
-    await test.step('Login as locked_out_user', async () => {
+    await test.step('Login as locked_out_user is rejected on the login page', async () => {
       await loginPage.login(users.lockedOut.username, users.lockedOut.password);
-    });
-
-    await test.step('Login page stays open with the lockout error', async () => {
       await expect(page).toHaveURL(/saucedemo\.com\/?$/);
       await expect(loginPage.loginButton).toBeVisible();
       await expect(loginPage.error).toHaveText(messages.lockedOut);

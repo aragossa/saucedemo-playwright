@@ -2,7 +2,8 @@
 
 Home assignment (~2 hours): three Playwright + TypeScript e2e tests against the
 public demo shop https://www.saucedemo.com/. The task statement is
-`qa-automation-home-assignment.pdf` — read it before changing scope. Never edit it.
+`qa-automation-home-assignment.pdf` (kept locally, excluded from the delivery
+archive) — read it before changing scope. Never edit it.
 
 ## Stack and commands
 
@@ -12,6 +13,7 @@ public demo shop https://www.saucedemo.com/. The task statement is
 - `npx playwright test` — the full suite. This is the command we report.
 - `npx playwright test <spec> -g "<title>"` — one test in isolation.
 - `npx playwright show-report` — HTML report of the last run.
+- `npm run pack` — delivery zip via `git archive` (tracked files only, no PDF).
 
 ## Layout
 

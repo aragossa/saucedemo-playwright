@@ -5,3 +5,4 @@ blob-report/
 .idea/
 .claude/settings.local.json
 .claude/hook-selftest.sh
+saucedemo-playwright.zip

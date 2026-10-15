@@ -1,0 +1,3 @@
+# Not part of the delivery archive (npm run pack / git archive)
+qa-automation-home-assignment.pdf export-ignore
+.gitattributes export-ignore

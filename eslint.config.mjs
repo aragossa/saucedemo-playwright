@@ -1,40 +1,24 @@
 import tseslint from 'typescript-eslint';
 import playwright from 'eslint-plugin-playwright';
 
+const recommended = playwright.configs['flat/recommended'];
+
 export default [
   { ignores: ['node_modules/**', 'playwright-report/**', 'test-results/**'] },
   ...tseslint.configs.recommended,
   {
-    ...playwright.configs['flat/recommended'],
+    // Every recommended Playwright rule is an error: a warning would not fail `npm run lint`.
+    ...recommended,
     files: ['tests/**/*.ts'],
+    rules: Object.fromEntries(Object.keys(recommended.rules).map((rule) => [rule, 'error'])),
   },
   {
-    // Test honesty: a test must assert, must not branch, must not be skipped, must not sleep.
-    files: ['tests/**/*.spec.ts'],
-    rules: {
-      'playwright/expect-expect': 'error',
-      'playwright/no-conditional-in-test': 'error',
-      'playwright/no-conditional-expect': 'error',
-      'playwright/no-skipped-test': 'error',
-      'playwright/no-focused-test': 'error',
-      'playwright/no-wait-for-timeout': 'error',
-      'playwright/no-force-option': 'error',
-      'playwright/missing-playwright-await': 'error',
-      'playwright/prefer-web-first-assertions': 'error',
-      'playwright/no-useless-not': 'error',
-      'playwright/valid-expect': 'error',
-    },
-  },
-  {
-    // Page objects: locators and actions only. No assertions.
+    // Page objects hold locators and actions only.
     files: ['tests/pages/**/*.ts'],
-    rules: {
-      'no-restricted-imports': ['error', { paths: [{ name: '@playwright/test', importNames: ['expect'], message: 'No expect in page objects.' }] }],
-      'no-restricted-syntax': ['error', { selector: "CallExpression[callee.name='expect']", message: 'No expect in page objects.' }],
-    },
+    rules: { 'no-restricted-syntax': ['error', { selector: "CallExpression[callee.name='expect']", message: 'No expect in page objects.' }] },
   },
   {
-    // Fixtures may assert outside a test body (e.g. loggedInPage checks the login succeeded).
+    // The loggedInPage fixture asserts that the login succeeded before handing the page to a test.
     files: ['tests/fixtures/**/*.ts'],
     rules: { 'playwright/no-standalone-expect': 'off' },
   },

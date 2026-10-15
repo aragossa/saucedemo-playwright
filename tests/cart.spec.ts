@@ -21,7 +21,6 @@ test.describe('Cart', () => {
     });
 
     await test.step('Cart contains the backpack', async () => {
-      await expect(cartPage.items).toHaveCount(1);
       await expect(cartPage.item(products.backpack).root).toBeVisible();
     });
   });

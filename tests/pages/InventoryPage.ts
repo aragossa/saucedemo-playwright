@@ -15,7 +15,7 @@ export class InventoryPage {
   }
 
   product(name: string): ProductCard {
-    return ProductCard.byName(this.page, this.list, name);
+    return ProductCard.byName(this.list, name);
   }
 
   async openCart() {

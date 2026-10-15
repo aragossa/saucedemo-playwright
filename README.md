@@ -15,7 +15,7 @@ Each test starts on the login page and is independent, so any of them can run al
 
 ## How to run
 
-Requires Node.js 18+ (developed on Node 23).
+Requires Node.js 20+ (developed on Node 23).
 
 ```bash
 npm install
@@ -29,7 +29,7 @@ Useful variations:
 npx playwright test --headed             # watch the browser
 npx playwright test tests/cart.spec.ts   # a single spec
 npx playwright show-report               # HTML report of the last run (test.step names included)
-npm run lint                             # eslint-plugin-playwright: no test without expect, no sleeps, no skips
+npm run lint                             # eslint-plugin-playwright, all rules as errors
 npm run typecheck
 ```
 
@@ -39,10 +39,10 @@ Command: `npx playwright test`
 
 ```
 Running 3 tests using 3 workers
-  ✓  2 [chromium] › tests/login.spec.ts:24:7 › Login › locked_out_user is rejected and stays on the login page (1.0s)
-  ✓  3 [chromium] › tests/login.spec.ts:5:7 › Login › standard_user signs in and sees Sauce Labs Backpack on the products page (1.1s)
-  ✓  1 [chromium] › tests/cart.spec.ts:5:7 › Cart › standard_user adds Sauce Labs Backpack to the cart and sees it in the cart (1.2s)
-  3 passed (2.1s)
+  ✓  3 [chromium] › tests/login.spec.ts:21:7 › Login › locked_out_user is rejected and stays on the login page (1.1s)
+  ✓  2 [chromium] › tests/login.spec.ts:5:7 › Login › standard_user signs in and sees Sauce Labs Backpack on the products page (1.1s)
+  ✓  1 [chromium] › tests/cart.spec.ts:5:7 › Cart › standard_user adds Sauce Labs Backpack to the cart and sees it in the cart (1.3s)
+  3 passed (2.2s)
 ```
 
 All 3 tests passed (Chromium, macOS, Playwright 1.64.1).
@@ -73,10 +73,7 @@ gives test 2 an authenticated start, and each user action is a `test.step`. ESLi
 
 ## Note on AI usage
 
-I used Claude Code for this assignment. I decided the design up front (page objects as fixtures,
-`data-test` locators, web-first assertions only, exact text for the lockout error, `toHaveCount(1)`
-for the cart) and wrote those decisions down as project rules before any code was generated; the
-rules, the lint setup and the guard hooks are in `CLAUDE.md` and `.claude/`. The assistant produced
-the scaffold, page objects and tests against them. I reviewed every file, ran the suite, ran each
-spec alone, and checked that a wrong product name and a wrong error text each make the right test
-fail on the right assertion.
+I used Claude Code. I fixed the design first (page objects as fixtures, `data-test` locators,
+web-first assertions, exact error text) and wrote it down as rules in `CLAUDE.md` and `.claude/rules/`;
+the assistant generated the code against them. I reviewed every file, ran the suite and each spec
+alone, and checked that a wrong product name or error text makes the right test fail.

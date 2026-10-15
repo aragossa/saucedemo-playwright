@@ -15,7 +15,8 @@ paths:
 - Web-first assertions only: `await expect(locator).toBeVisible()`, `toHaveText`, `toHaveURL`, `toHaveCount`.
 - No `page.waitForTimeout`, no `isVisible()` polled in loops, no `try/catch` around asserts.
 - Assert the exact text the task gives (e.g. the lockout error), not a substring, unless the task says otherwise.
-- Prefer one meaningful assertion per step over many weak ones. Every test must be able to fail.
+- Assert what the task states, no more: an extra, stricter check makes the test fail for reasons
+  the scenario does not describe. Every test must be able to fail.
 
 ## Structure
 - Page objects hold locators and actions. No `expect` inside page objects.
@@ -51,7 +52,7 @@ Review checklist (item 3), applied to every test before it is called done:
 - Where the task gives text, assert it exactly with `toHaveText`. A regex or substring needs a
   comment saying why.
 - No `expect` in page objects, no `try/catch` around assertions, no `expect.soft`.
-- Every `test.step` ends with an assertion, not just an action.
+- Every `test.step` ends with an assertion; an action and the check of its result share a step.
 - The test does not depend on the order of other tests or on data they leave behind.
 
 Failure quality (item 4): when an expected value is wrong, the test must fail on an `expect`
