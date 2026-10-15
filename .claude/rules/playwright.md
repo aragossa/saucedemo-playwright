@@ -37,6 +37,31 @@ paths:
   (name, price, Add/Remove button). `InventoryPage.product(name)` and `CartPage.item(name)`
   return a `ProductCard`; the `inventory-item-name` filter lives there only.
 
+## Test honesty
+A test is honest when it can fail for the reason the scenario describes, and only for that reason.
+
+Automated (item 1): `npm run lint` runs `eslint-plugin-playwright`. It fails on a test without
+`expect`, on `if` around actions or assertions, on `skip`/`fixme`/`only`, on `waitForTimeout`,
+on `force: true`, on a missing `await` before `expect`, and on `expect` inside `tests/pages/`.
+Lint must be clean before a test counts as written.
+
+Review checklist (item 3), applied to every test before it is called done:
+- The final assertion is on the outcome the task names (cart contents, error text, visible product),
+  not only on an intermediate signal (badge count, URL).
+- Where the task gives text, assert it exactly with `toHaveText`. A regex or substring needs a
+  comment saying why.
+- No `expect` in page objects, no `try/catch` around assertions, no `expect.soft`.
+- Every `test.step` ends with an assertion, not just an action.
+- The test does not depend on the order of other tests or on data they leave behind.
+
+Failure quality (item 4): when an expected value is wrong, the test must fail on an `expect`
+within the expect timeout, with a clear expected/received message. A failure that is an action
+timeout (`click` waiting 30 s for an element) is a smell: assert the element is visible before
+acting on it. `actionTimeout` in the config is 10 s so a broken locator surfaces fast.
+
+Negative check: break one expected value in `tests/fixtures/users.ts`, run the test, confirm
+it fails on the right assertion, restore. Mention the result in the summary.
+
 ## Config
-- Keep `baseURL`, `testIdAttribute: 'data-test'`, `trace: 'retain-on-failure'`, `screenshot: 'only-on-failure'`.
+- Keep `baseURL`, `testIdAttribute: 'data-test'`, `actionTimeout: 10_000`, `trace: 'retain-on-failure'`, `screenshot: 'only-on-failure'`.
 - Chromium only, `fullyParallel: true`. Do not add browsers or retries locally without asking.

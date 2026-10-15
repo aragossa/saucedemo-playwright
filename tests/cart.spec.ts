@@ -8,7 +8,9 @@ test.describe('Cart', () => {
     cartPage,
   }) => {
     await test.step('Add Sauce Labs Backpack to cart', async () => {
-      await loggedInPage.product(products.backpack).addToCart();
+      const backpack = loggedInPage.product(products.backpack);
+      await expect(backpack.root).toBeVisible();
+      await backpack.addToCart();
       await expect(loggedInPage.cartBadge).toHaveText('1');
     });
 

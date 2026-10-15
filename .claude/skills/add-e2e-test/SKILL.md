@@ -36,11 +36,13 @@ Follow `.claude/rules/playwright.md`. Work in this order and do not skip the che
 
 ## 5. Verify
 Run in this order and show the output:
-1. `npx tsc --noEmit -p tsconfig.json`
+1. `npx tsc --noEmit -p tsconfig.json` and `npm run lint`.
 2. `npx playwright test <spec> -g "<title>"` — the new test alone.
 3. Negative check: temporarily break one expected value (product name, error text), run
-   again, confirm it fails on the right assertion, then restore it. Mention this in the summary.
-4. `npx playwright test` — the whole suite.
+   again, confirm it fails on an `expect` (not an action timeout) with a clear message, then
+   restore it. Mention this in the summary.
+4. Walk the "Test honesty" checklist in `.claude/rules/playwright.md`.
+5. `npx playwright test` — the whole suite.
 
 ## 6. Report
 State the command run, the pass/fail result verbatim, and anything you could not verify.

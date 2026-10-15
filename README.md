@@ -27,6 +27,8 @@ Useful variations:
 npx playwright test --headed             # watch the browser
 npx playwright test tests/cart.spec.ts   # a single spec
 npx playwright show-report               # HTML report of the last run (test.step names included)
+npm run lint                             # eslint-plugin-playwright: no test without expect, no sleeps, no skips
+npm run typecheck
 ```
 
 ## Result
@@ -49,7 +51,8 @@ visibility assertion, with a wrong lockout text test 3 fails on the exact-text a
 ## Project layout
 
 ```
-playwright.config.ts            baseURL, data-test as the test-id attribute, trace/screenshot on failure
+playwright.config.ts            baseURL, data-test as the test-id attribute, actionTimeout, trace/screenshot on failure
+eslint.config.mjs               test-honesty lint rules (eslint-plugin-playwright)
 tests/
   fixtures/users.ts             credentials, product names, expected messages
   fixtures/test.ts              test.extend: page-object fixtures and loggedInPage
@@ -66,6 +69,9 @@ Design notes:
 - Page objects are injected as Playwright fixtures; `loggedInPage` gives test 2 an authenticated start.
 - Each user-visible action is a `test.step`, so the HTML report and trace read like the scenario.
 - Only web-first assertions (`expect(locator).toBeVisible()` etc.), no fixed waits.
+- Test honesty is enforced by ESLint (`eslint.config.mjs`): every test asserts, no conditionals
+  around assertions, no `skip`/`only`, no `waitForTimeout`, no `expect` in page objects.
+  A wrong expected value makes a test fail on an `expect` within seconds, not on an action timeout.
 
 ## Note on AI usage
 

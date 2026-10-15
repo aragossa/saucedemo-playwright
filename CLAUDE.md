@@ -8,6 +8,7 @@ public demo shop https://www.saucedemo.com/. The task statement is
 
 - Playwright Test, TypeScript, Chromium only. Node 23, npm.
 - `npm install && npx playwright install chromium` — one-time setup.
+- `npm run lint` — ESLint with eslint-plugin-playwright; enforces test honesty rules.
 - `npx playwright test` — the full suite. This is the command we report.
 - `npx playwright test <spec> -g "<title>"` — one test in isolation.
 - `npx playwright show-report` — HTML report of the last run.
@@ -15,7 +16,8 @@ public demo shop https://www.saucedemo.com/. The task statement is
 ## Layout
 
 ```
-playwright.config.ts   baseURL, testIdAttribute = data-test, trace/screenshot on failure
+playwright.config.ts   baseURL, testIdAttribute = data-test, actionTimeout, trace/screenshot on failure
+eslint.config.mjs      eslint-plugin-playwright rules for test honesty
 tests/fixtures/users.ts   credentials, product names
 tests/fixtures/test.ts    test.extend: page-object fixtures and loggedInPage
 tests/pages/              page objects: one class per page, locators + actions only
@@ -29,9 +31,10 @@ cover adding a test and debugging a failing one.
 
 ## Definition of done
 
-1. `npx tsc --noEmit -p tsconfig.json` is clean.
+1. `npx tsc --noEmit -p tsconfig.json` and `npm run lint` are clean.
 2. `npx playwright test` passes, and each spec passes when run alone.
-3. A deliberately wrong expectation makes the relevant test fail (no vacuous asserts).
+3. A deliberately wrong expectation makes the relevant test fail on an `expect`, fast, with a
+   clear message (see "Test honesty" in `.claude/rules/playwright.md`).
 4. README has the exact command, the real output and the AI-usage note.
 
 ## Guardrails
