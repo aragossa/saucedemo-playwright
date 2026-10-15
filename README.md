@@ -73,7 +73,6 @@ gives test 2 an authenticated start, and each user action is a `test.step`. ESLi
 
 ## Note on AI usage
 
-I used Claude Code. I fixed the design first (page objects as fixtures, `data-test` locators,
-web-first assertions, exact error text) and wrote it down as rules in `CLAUDE.md` and `.claude/rules/`;
-the assistant generated the code against them. I reviewed every file, ran the suite and each spec
-alone, and checked that a wrong product name or error text makes the right test fail.
+I used Claude Code. I set the design rules first and had the assistant generate the code against
+them; I reviewed every file, ran the suite, and checked that wrong expected values make the right
+tests fail.
