@@ -21,7 +21,7 @@ paths:
 - Page objects hold locators and actions. No `expect` inside page objects.
 - Tests hold the scenario and the assertions. One scenario per test, title reads like the task item.
 - Every test starts from the login page and shares no state with other tests.
-- Credentials and product names come from `tests/fixtures/users.ts`, never inline strings.
+- Credentials and product names come from `tests/fixtures/testData.ts`, never inline strings.
 - Use the blocked user (`locked_out_user`) only in the lockout test.
 
 ## Patterns (use all of them)
@@ -59,7 +59,7 @@ within the expect timeout, with a clear expected/received message. A failure tha
 timeout (`click` waiting 30 s for an element) is a smell: assert the element is visible before
 acting on it. `actionTimeout` in the config is 10 s so a broken locator surfaces fast.
 
-Negative check: break one expected value in `tests/fixtures/users.ts`, run the test, confirm
+Negative check: break one expected value in `tests/fixtures/testData.ts`, run the test, confirm
 it fails on the right assertion, restore. Mention the result in the summary.
 
 ## Config

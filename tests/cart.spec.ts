@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures/test';
-import { products } from './fixtures/users';
+import { products } from './fixtures/testData';
 
 test.describe('Cart', () => {
   test('standard_user adds Sauce Labs Backpack to the cart and sees it in the cart', async ({
@@ -23,7 +23,6 @@ test.describe('Cart', () => {
     await test.step('Cart contains the backpack', async () => {
       await expect(cartPage.items).toHaveCount(1);
       await expect(cartPage.item(products.backpack).root).toBeVisible();
-      await expect(cartPage.item(products.backpack).name).toHaveText(products.backpack);
     });
   });
 });

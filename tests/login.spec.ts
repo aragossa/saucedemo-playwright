@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures/test';
-import { users, products, messages } from './fixtures/users';
+import { users, products, messages } from './fixtures/testData';
 
 test.describe('Login', () => {
   test('standard_user signs in and sees Sauce Labs Backpack on the products page', async ({

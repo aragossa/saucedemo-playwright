@@ -15,6 +15,8 @@ Each test starts on the login page and is independent, so any of them can run al
 
 ## How to run
 
+Requires Node.js 18+ (developed on Node 23).
+
 ```bash
 npm install
 npx playwright install chromium
@@ -37,9 +39,9 @@ Command: `npx playwright test`
 
 ```
 Running 3 tests using 3 workers
-  ✓  1 [chromium] › tests/login.spec.ts:24:7 › Login › locked_out_user is rejected and stays on the login page (1.2s)
-  ✓  3 [chromium] › tests/login.spec.ts:5:7 › Login › standard_user signs in and sees Sauce Labs Backpack on the products page (1.2s)
-  ✓  2 [chromium] › tests/cart.spec.ts:5:7 › Cart › standard_user adds Sauce Labs Backpack to the cart and sees it in the cart (1.3s)
+  ✓  2 [chromium] › tests/login.spec.ts:24:7 › Login › locked_out_user is rejected and stays on the login page (1.0s)
+  ✓  3 [chromium] › tests/login.spec.ts:5:7 › Login › standard_user signs in and sees Sauce Labs Backpack on the products page (1.1s)
+  ✓  1 [chromium] › tests/cart.spec.ts:5:7 › Cart › standard_user adds Sauce Labs Backpack to the cart and sees it in the cart (1.2s)
   3 passed (2.1s)
 ```
 
@@ -54,7 +56,7 @@ visibility assertion, with a wrong lockout text test 3 fails on the exact-text a
 playwright.config.ts            baseURL, data-test as the test-id attribute, actionTimeout, trace/screenshot on failure
 eslint.config.mjs               test-honesty lint rules (eslint-plugin-playwright)
 tests/
-  fixtures/users.ts             credentials, product names, expected messages
+  fixtures/testData.ts          credentials, product names, expected messages
   fixtures/test.ts              test.extend: page-object fixtures and loggedInPage
   pages/LoginPage.ts            page objects: locators + actions, no assertions
   pages/InventoryPage.ts
@@ -64,20 +66,17 @@ tests/
   cart.spec.ts                  test 2
 ```
 
-Design notes:
-- Locators use the site's `data-test` attributes via `getByTestId`.
-- Page objects are injected as Playwright fixtures; `loggedInPage` gives test 2 an authenticated start.
-- Each user-visible action is a `test.step`, so the HTML report and trace read like the scenario.
-- Only web-first assertions (`expect(locator).toBeVisible()` etc.), no fixed waits.
-- Test honesty is enforced by ESLint (`eslint.config.mjs`): every test asserts, no conditionals
-  around assertions, no `skip`/`only`, no `waitForTimeout`, no `expect` in page objects.
-  A wrong expected value makes a test fail on an `expect` within seconds, not on an action timeout.
+Locators use the site's `data-test` attributes. Page objects are injected as fixtures, `loggedInPage`
+gives test 2 an authenticated start, and each user action is a `test.step`. ESLint with
+`eslint-plugin-playwright` rejects a test without `expect`, conditionals around assertions,
+`skip`/`only`, `waitForTimeout` and `expect` inside page objects.
 
 ## Note on AI usage
 
-I used an AI assistant (Claude Code) to scaffold the project and draft the page objects and tests.
-The specification the assistant worked from is in this repo: `.claude/rules/` (locators, assertions,
-structure, patterns), `.claude/skills/` (how to add and debug a test) and `.claude/settings.json`
-with hooks that block destructive commands and typecheck every `.ts` edit. The chat prompts
-themselves were short; the rules did the work.
-I reviewed the code, ran the suite locally and verified that wrong expectations make the tests fail.
+I used Claude Code for this assignment. I decided the design up front (page objects as fixtures,
+`data-test` locators, web-first assertions only, exact text for the lockout error, `toHaveCount(1)`
+for the cart) and wrote those decisions down as project rules before any code was generated; the
+rules, the lint setup and the guard hooks are in `CLAUDE.md` and `.claude/`. The assistant produced
+the scaffold, page objects and tests against them. I reviewed every file, ran the suite, ran each
+spec alone, and checked that a wrong product name and a wrong error text each make the right test
+fail on the right assertion.

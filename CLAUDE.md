@@ -18,7 +18,7 @@ public demo shop https://www.saucedemo.com/. The task statement is
 ```
 playwright.config.ts   baseURL, testIdAttribute = data-test, actionTimeout, trace/screenshot on failure
 eslint.config.mjs      eslint-plugin-playwright rules for test honesty
-tests/fixtures/users.ts   credentials, product names
+tests/fixtures/testData.ts credentials, product names, expected messages
 tests/fixtures/test.ts    test.extend: page-object fixtures and loggedInPage
 tests/pages/              page objects: one class per page, locators + actions only
 tests/pages/components/   component objects shared by pages (ProductCard)
@@ -26,8 +26,8 @@ tests/*.spec.ts           tests; each starts on the login page and runs on its o
 README.md              what we send: how to run, the command, the result, AI note
 ```
 
-Detailed conventions live in `.claude/rules/`. Skills in `.claude/skills/`
-cover adding a test and debugging a failing one.
+`.claude/rules/` holds the invariants (always loaded). `.claude/skills/` holds
+procedures (loaded on demand) and must not repeat the rules.
 
 ## Definition of done
 
@@ -46,5 +46,5 @@ and let the user decide.
 
 Never test the guardrails by putting dangerous commands or paths into a command
 you run, even quoted, in comments, or as list items: the hook matches the text
-and blocks the whole call. Put test cases in a file (see
-`.claude/hook-selftest.sh`) and run that file. Add new cases there, never inline.
+and blocks the whole call. Put test cases in a file (`.claude/hook-selftest.sh`, local only, not committed)
+and run that file. Add new cases there, never inline.
